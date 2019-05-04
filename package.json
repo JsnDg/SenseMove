@@ -1,0 +1,10 @@
+{
+    "scripts": {
+        "start": "node server.js"
+    },
+    "name": "happy-save",
+    "version": "0.0.1",
+    "dependencies": {
+        "express": "^4.16.4"
+    }
+}
