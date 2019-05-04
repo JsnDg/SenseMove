@@ -17,11 +17,28 @@ $(document).ready(function() {
 });
 
 function startMeasure() {
-  var motionType = document.getElementById("motion").value;
-  if (motionType == "None") {
-    console.log("No motion type is selected");
+  if (state == 0) {
+    var motionType = document.getElementById("motion").value;
+    switch (motionType) {
+      case "0":
+        console.log("Error: No motion type is selected.");
+        break;
+      case "1":
+        console.log("Start standing measurement");
+        state = 1;
+        break;
+      case "2":
+        console.log("Start walking measurement");
+        state = 2;
+        break;
+      case "3":
+        console.log("Start running measurement");
+        state = 3;
+        break;
+    }
   } else {
-    console.log("Start measure");
+    console.log("Error: The measurement is in process.");
+    console.log(state);
   }
 }
 
