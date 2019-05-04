@@ -3,15 +3,17 @@
 //state = 2 walk motion type
 //state = 3 run motion type
 
+var state = 0;
+var stand = 0;
+var walk = 0;
+var run = 0;
+
 $(document).ready(function() {
-  var state = 0;
-  var stand = 0;
-  var walk = 0;
-  var run = 0;
   $("#start").click(startMeasure);
   $("#pause").click(pauseMeasure);
   $("#finish").click(finishMeasure);
   $("#generate").click(generateMap);
+  startTimer()
 });
 
 function startMeasure() {
@@ -35,4 +37,24 @@ function finishMeasure() {
 
 function generateMap() {
   console.log("Generate map");
+}
+
+function startTimer() {
+  var countDown = 180*1000
+  var x = setInterval(function() {
+      
+    // Time calculations for minutes and seconds
+    var minutes = Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((countDown % (1000 * 60)) / 1000);
+    
+    // Output the result in an element with id="demo"
+    document.getElementById("Timer").innerHTML = minutes + "min " + seconds + "sec ";
+      
+    countDown = countDown - 1000
+    // If the count down is over, write some text 
+    if (countDown < 0) {
+      clearInterval(x);
+      document.getElementById("Timer").innerHTML = "EXPIRED";
+    }
+  }, 1000);
 }
