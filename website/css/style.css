@@ -19,36 +19,35 @@
 #start {
   height: auto;
   width: 12%;
-  margin-left: 12.8em;
-  margin-top: 4em;
+  margin-top: 2em;
 }
 
 #pause {
   height: auto;
   width: 12%;
-  margin-top: 4em;
+  margin-top: 2em;
 }
 
 #finish {
   height: auto;
   width: 12%;
-  margin-top: 4em;
+  margin-top: 2em;
 }
 
 #generate {
   height: auto;
   width: 12%;
-  margin-top: 4em;
+  margin-top: 2em;
 }
 
 #Timer {
   text-align: center;
-  font-size: 60px;
+  font-size: 3em;
   margin-top: 0px;
 }
 
 p {
-  font-size: 1.5em;
+  font-size: 2em;
   color: #1dbf86;
   font-weight: bold;
 }
