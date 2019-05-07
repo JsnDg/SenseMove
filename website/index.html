@@ -62,33 +62,36 @@
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    // read data
-    d3.csv(
-      "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_for_density2d.csv",
-      function(data) {
-        // Add X axis
-        var x = d3
-          .scaleLinear()
-          .domain([5, 20])
-          .range([margin.left, width - margin.right]);
-        svg
-          .append("g")
-          .attr("transform", "translate(0," + height + ")")
-          .call(d3.axisBottom(x));
-
-        // Add Y axis
-        var y = d3
-          .scaleLinear()
-          .domain([5, 25])
-          .range([height - margin.bottom, margin.top]);
-        svg.append("g").call(d3.axisLeft(y));
-
-        // Prepare a color palette
-        var color = d3
+    // Prepare a color palette
+    var color = d3
           .scaleLinear()
           .domain([0, 1]) // Points per square pixel.
           .range(["#0bf820", "#af0b0b"]);
 
+
+    // read data
+    function update_d3() {
+      svg.selectAll("path").remove();
+      // console.log("here");
+    d3.csv(
+      "heatmap.csv",
+      function(data) {
+        // Add X axis
+        var x = d3
+      .scaleLinear()
+      .domain([5, 20])
+      .range([margin.left, width - margin.right]);
+    svg
+      .append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+    // Add Y axis
+    var y = d3
+      .scaleLinear()
+      .domain([5, 25])
+      .range([height - margin.bottom, margin.top]);
+    svg.append("g").call(d3.axisLeft(y));
         // compute the density data
         var densityData = d3
           .contourDensity()
@@ -114,5 +117,7 @@
           });
       }
     );
+    }
+    setInterval(update_d3, 2000);
   </script>
 </html>
