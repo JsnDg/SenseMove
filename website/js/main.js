@@ -10,7 +10,10 @@ var state = 0;
 var stand = 0;
 var walk = 0;
 var run = 0;
-var countDown = 180 * 1000;
+//var countDown = 180 * 1000;
+var countDown = 30 * 1000;
+var timeout = 0;
+var finishedType = "None";
 
 $(document).ready(function() {
   $("#start").click(startMeasure);
@@ -25,37 +28,53 @@ function startMeasure() {
     switch (motionType) {
       case "0":
         console.log("Error: No motion type is selected.");
+        document.getElementById("instruction").innerHTML =
+          "Error: No motion type is selected.";
         break;
       case "1":
         console.log("Start standing measurement");
+        document.getElementById("instruction").innerHTML =
+          "Start standing measurement. Click PAUSE to pause measurement.";
         state = 1;
         Clock.start();
         break;
       case "2":
         console.log("Start walking measurement");
+        document.getElementById("instruction").innerHTML =
+          "Start walking measurement. Click PAUSE to pause measurement.";
         state = 2;
         Clock.start();
         break;
       case "3":
         console.log("Start running measurement");
+        document.getElementById("instruction").innerHTML =
+          "Start running measurement. Click PAUSE to pause measurement.";
         state = 3;
         Clock.start();
         break;
     }
   } else if (state == 4) {
     console.log("Resume standing measurement");
+    document.getElementById("instruction").innerHTML =
+      "Resume running measurement. Click PAUSE to pause measurement.";
     state = 1;
     Clock.resume();
   } else if (state == 5) {
     console.log("Resume walking measurement");
+    document.getElementById("instruction").innerHTML =
+      "Resume walking measurement. Click PAUSE to pause measurement.";
     state = 2;
     Clock.resume();
   } else if (state == 6) {
     console.log("Resume running measurement");
+    document.getElementById("instruction").innerHTML =
+      "Resume running measurement. Click PAUSE to pause measurement.";
     state = 3;
     Clock.resume();
   } else {
     console.log("Error: The measurement is in process.");
+    document.getElementById("instruction").innerHTML =
+      "Error: The measurement is in process.";
     console.log(state);
   }
 }
@@ -63,18 +82,26 @@ function startMeasure() {
 function pauseMeasure() {
   if (state == 1) {
     console.log("Pause standing measurement");
+    document.getElementById("instruction").innerHTML =
+      "Standing measurement is paused.";
     state = 4;
     Clock.pause();
   } else if (state == 2) {
     console.log("Pause walking measurement");
+    document.getElementById("instruction").innerHTML =
+      "Walking measurement is paused.";
     state = 5;
     Clock.pause();
   } else if (state == 3) {
     console.log("Pause running measurement");
+    document.getElementById("instruction").innerHTML =
+      "Running measurement is paused.";
     state = 6;
     Clock.pause();
   } else {
-    console.log("Not started, can't pause");
+    console.log("Error: Not started, can't pause");
+    document.getElementById("instruction").innerHTML =
+      "Error: No measurement in process.";
     console.log(state);
     Clock.pause();
   }
@@ -83,16 +110,73 @@ function pauseMeasure() {
 function finishMeasure() {
   if (state == 0) {
     console.log("Not started, can't finish");
+    document.getElementById("instruction").innerHTML =
+      "Error: No measurement in process.";
   } else {
-    console.log("Finish current measure process");
-    state = 0;
-    Clock.reset();
-    Clock.pause();
+    if (timeout == 0) {
+      console.log("The measurement time is not enough.");
+      document.getElementById("instruction").innerHTML =
+        "The measurement time is not enough. The data will be discarded.";
+      systemReset();
+    } else {
+      switch (state) {
+        case 4:
+          console.log("Finish standing measurement");
+          document.getElementById("instruction").innerHTML =
+            "The standing measurement is finished. Choose a new motion type and click START to start measurement.";
+          stand = 1;
+          systemReset();
+          break;
+        case 5:
+          console.log("Finish walking measurement");
+          document.getElementById("instruction").innerHTML =
+            "The walking measurement is finished. Choose a new motion type and click START to start measurement.";
+          walk = 1;
+          systemReset();
+          break;
+        case 6:
+          console.log("Finish running measurement");
+          document.getElementById("instruction").innerHTML =
+            "The running measurement is finished. Choose a new motion type and click START to start measurement.";
+          run = 1;
+          systemReset();
+          break;
+      }
+    }
   }
 }
 
+function systemReset() {
+  state = 0;
+  Clock.reset();
+  Clock.pause();
+  if (stand + walk + run != 0) {
+    finishedType = "";
+    if (stand == 1) {
+      finishedType = finishedType + "standing ";
+    }
+    if (walk == 1) {
+      finishedType = finishedType + "walking ";
+    }
+    if (run == 1) {
+      finishedType = finishedType + "run ";
+    }
+  }
+  document.getElementById("typeFinished").innerHTML = finishedType;
+  document.getElementById("Timer").innerHTML = "";
+}
+
 function generateMap() {
-  console.log("Generate map");
+  if (stand + walk + run != 0) {
+    console.log("Generate map");
+    document.getElementById("instruction").innerHTML =
+      "The pressure map is generated.";
+  } else {
+    console.log("Error: No measurement is finished. Map cannot be generated.");
+    document.getElementById("instruction").innerHTML =
+      "Error: No measurement is finished. Map cannot be generated. Please start a new measurement.";
+  }
+  systemReset();
 }
 
 var Clock = {
@@ -105,7 +189,9 @@ var Clock = {
         document.getElementById("Timer").innerHTML =
           minutes + "min " + seconds + "sec ";
       } else {
-        document.getElementById("Timer").innerHTML = "Timeout";
+        document.getElementById("Timer").innerHTML =
+          "Timeout, you can pause and then finish the measurement.";
+        timeout = 1;
       }
       countDown -= 1000;
     }, 1000);
@@ -118,6 +204,7 @@ var Clock = {
     if (!this.interval) this.start();
   },
   reset: function() {
-    countDown = 180 * 1000;
+    //countDown = 180 * 1000;
+    countDown = 30 * 1000;
   }
 };

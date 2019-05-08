@@ -23,6 +23,8 @@
     <center>
       <p id="instruction">Please select the motion type then click START</p>
       <p id="Timer"></p>
+      <p>Motion type finished:</p>
+      <p id="typeFinished"></p>
     </center>
     <center>
       <button
@@ -64,34 +66,31 @@
 
     // Prepare a color palette
     var color = d3
-          .scaleLinear()
-          .domain([0, 1]) // Points per square pixel.
-          .range(["#0bf820", "#af0b0b"]);
-
+      .scaleLinear()
+      .domain([0, 1]) // Points per square pixel.
+      .range(["#0bf820", "#af0b0b"]);
 
     // read data
     function update_d3() {
       svg.selectAll("path").remove();
       // console.log("here");
-    d3.csv(
-      "heatmap.csv",
-      function(data) {
+      d3.csv("heatmap.csv", function(data) {
         // Add X axis
         var x = d3
-      .scaleLinear()
-      .domain([5, 20])
-      .range([margin.left, width - margin.right]);
-    svg
-      .append("g")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
+          .scaleLinear()
+          .domain([5, 20])
+          .range([margin.left, width - margin.right]);
+        svg
+          .append("g")
+          .attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(x));
 
-    // Add Y axis
-    var y = d3
-      .scaleLinear()
-      .domain([5, 25])
-      .range([height - margin.bottom, margin.top]);
-    svg.append("g").call(d3.axisLeft(y));
+        // Add Y axis
+        var y = d3
+          .scaleLinear()
+          .domain([5, 25])
+          .range([height - margin.bottom, margin.top]);
+        svg.append("g").call(d3.axisLeft(y));
         // compute the density data
         var densityData = d3
           .contourDensity()
@@ -115,8 +114,7 @@
           .attr("fill", function(d) {
             return color(d.value);
           });
-      }
-    );
+      });
     }
     setInterval(update_d3, 2000);
   </script>
