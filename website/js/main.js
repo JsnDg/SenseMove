@@ -215,6 +215,7 @@ var Clock = {
         document.getElementById("Timer").innerHTML =
           "Timeout, you can pause and then finish the measurement.";
         timeout = 1;
+        pauseMeasure();
       }
       countDown -= 1000;
     }, 1000);
