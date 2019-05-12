@@ -6,16 +6,10 @@
   position: fixed;
   z-index: -1;
 }
-#foot {
-  margin-top: 2em;
-  height: auto;
-  width: 50%;
-  margin-bottom: 2em;
-}
 
 #logo {
   height: auto;
-  width: 20%;
+  width: 30%;
 }
 
 #motionSelect {

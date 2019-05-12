@@ -15,21 +15,37 @@ var countDown = 15 * 1000;
 var timeout = 0;
 var finishedType = "None";
 
+var versionType = 0;
+
 $(document).ready(function() {
-  var img = document.getElementById('foot');
-  img.style.visibility = 'hidden';
-  document.getElementById('version').onchange=version;
+  document.getElementById("version").onchange = version;
   $("#start").click(startMeasure);
   $("#pause").click(pauseMeasure);
   $("#finish").click(finishMeasure);
   $("#generate").click(generateMap);
+  document.getElementById("logo").src = "img/logo.png";
+  var logo = document.createElement("logo");
 });
 
 function version() {
   var version = document.getElementById("version");
   if (version.value != "0") {
-    document.getElementById("versionSelect").style.visibility = 'hidden';
+    document.getElementById("versionSelect").style.visibility = "hidden";
   }
+}
+
+function change2Foot() {
+  logo.src = "img/Foot.png";
+  logo.style.width = "62%";
+  logo.style.marginTop = "3em";
+  logo.style.marginBottom = "4em";
+}
+
+function change2Logo() {
+  logo.src = "img/logo.png";
+  logo.style.width = "30%";
+  logo.style.marginTop = "0em";
+  logo.style.marginBottom = "0em";
 }
 
 function startMeasure() {
@@ -37,8 +53,7 @@ function startMeasure() {
   if (state == 0) {
     var motionType = document.getElementById("motion").value;
     if (motionType != "0" && versionType == "B") {
-      var img = document.getElementById('foot');
-      img.style.visibility = 'visible';
+      change2Foot();
     }
     switch (motionType) {
       case "0":
@@ -70,8 +85,7 @@ function startMeasure() {
     }
   } else if (state == 4) {
     if (versionType == "B") {
-      var img = document.getElementById('foot');
-      img.style.visibility = 'visible';
+      change2Foot();
     }
     console.log("Resume standing measurement");
     document.getElementById("instruction").innerHTML =
@@ -80,8 +94,7 @@ function startMeasure() {
     Clock.resume();
   } else if (state == 5) {
     if (versionType == "B") {
-      var img = document.getElementById('foot');
-      img.style.visibility = 'visible';
+      change2Foot();
     }
     console.log("Resume walking measurement");
     document.getElementById("instruction").innerHTML =
@@ -90,8 +103,7 @@ function startMeasure() {
     Clock.resume();
   } else if (state == 6) {
     if (versionType == "B") {
-      var img = document.getElementById('foot');
-      img.style.visibility = 'visible';
+      change2Foot();
     }
     console.log("Resume running measurement");
     document.getElementById("instruction").innerHTML =
@@ -107,8 +119,7 @@ function startMeasure() {
 }
 
 function pauseMeasure() {
-  var img = document.getElementById('foot');
-  img.style.visibility = 'hidden';
+  change2Logo();
   if (state == 1) {
     console.log("Pause standing measurement");
     document.getElementById("instruction").innerHTML =
@@ -137,8 +148,9 @@ function pauseMeasure() {
 }
 
 function finishMeasure() {
-  var img = document.getElementById('foot');
-  img.style.visibility = 'hidden';
+  if (versionType == "B") {
+    change2Logo();
+  }
   if (state == 0) {
     console.log("Not started, can't finish");
     document.getElementById("instruction").innerHTML =
@@ -221,7 +233,7 @@ var Clock = {
           minutes + "min " + seconds + "sec ";
       } else {
         document.getElementById("Timer").innerHTML =
-          "Timeout, you can pause and then finish the measurement.";
+          "Timeout, you can FINISH the measurement.";
         timeout = 1;
         pauseMeasure();
       }
