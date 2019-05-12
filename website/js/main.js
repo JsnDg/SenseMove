@@ -18,11 +18,19 @@ var finishedType = "None";
 $(document).ready(function() {
   var img = document.getElementById('foot');
   img.style.visibility = 'hidden';
+  document.getElementById('version').onchange=version;
   $("#start").click(startMeasure);
   $("#pause").click(pauseMeasure);
   $("#finish").click(finishMeasure);
   $("#generate").click(generateMap);
 });
+
+function version() {
+  var version = document.getElementById("version");
+  if (version.value != "0") {
+    document.getElementById("versionSelect").style.visibility = 'hidden';
+  }
+}
 
 function startMeasure() {
   var versionType = document.getElementById("version").value;
