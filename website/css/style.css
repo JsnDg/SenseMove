@@ -6,6 +6,12 @@
   position: fixed;
   z-index: -1;
 }
+#foot {
+  margin-top: 2em;
+  height: auto;
+  width: 50%;
+  margin-bottom: 2em;
+}
 
 #logo {
   height: auto;
@@ -50,4 +56,8 @@ p {
   font-size: 2em;
   color: #1dbf86;
   font-weight: bold;
+}
+
+#versionSelect {
+  margin-top: 2em;
 }

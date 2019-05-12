@@ -11,11 +11,13 @@ var stand = 0;
 var walk = 0;
 var run = 0;
 //var countDown = 180 * 1000;
-var countDown = 30 * 1000;
+var countDown = 15 * 1000;
 var timeout = 0;
 var finishedType = "None";
 
 $(document).ready(function() {
+  var img = document.getElementById('foot');
+  img.style.visibility = 'hidden';
   $("#start").click(startMeasure);
   $("#pause").click(pauseMeasure);
   $("#finish").click(finishMeasure);
@@ -23,8 +25,13 @@ $(document).ready(function() {
 });
 
 function startMeasure() {
+  var versionType = document.getElementById("version").value;
   if (state == 0) {
     var motionType = document.getElementById("motion").value;
+    if (motionType != "0" && versionType == "B") {
+      var img = document.getElementById('foot');
+      img.style.visibility = 'visible';
+    }
     switch (motionType) {
       case "0":
         console.log("Error: No motion type is selected.");
@@ -54,18 +61,30 @@ function startMeasure() {
         break;
     }
   } else if (state == 4) {
+    if (versionType == "B") {
+      var img = document.getElementById('foot');
+      img.style.visibility = 'visible';
+    }
     console.log("Resume standing measurement");
     document.getElementById("instruction").innerHTML =
       "Resume running measurement. Click PAUSE to pause measurement.";
     state = 1;
     Clock.resume();
   } else if (state == 5) {
+    if (versionType == "B") {
+      var img = document.getElementById('foot');
+      img.style.visibility = 'visible';
+    }
     console.log("Resume walking measurement");
     document.getElementById("instruction").innerHTML =
       "Resume walking measurement. Click PAUSE to pause measurement.";
     state = 2;
     Clock.resume();
   } else if (state == 6) {
+    if (versionType == "B") {
+      var img = document.getElementById('foot');
+      img.style.visibility = 'visible';
+    }
     console.log("Resume running measurement");
     document.getElementById("instruction").innerHTML =
       "Resume running measurement. Click PAUSE to pause measurement.";
@@ -80,6 +99,8 @@ function startMeasure() {
 }
 
 function pauseMeasure() {
+  var img = document.getElementById('foot');
+  img.style.visibility = 'hidden';
   if (state == 1) {
     console.log("Pause standing measurement");
     document.getElementById("instruction").innerHTML =
@@ -108,6 +129,8 @@ function pauseMeasure() {
 }
 
 function finishMeasure() {
+  var img = document.getElementById('foot');
+  img.style.visibility = 'hidden';
   if (state == 0) {
     console.log("Not started, can't finish");
     document.getElementById("instruction").innerHTML =
@@ -205,6 +228,6 @@ var Clock = {
   },
   reset: function() {
     //countDown = 180 * 1000;
-    countDown = 30 * 1000;
+    countDown = 15 * 1000;
   }
 };
