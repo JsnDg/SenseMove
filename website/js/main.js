@@ -10,7 +10,7 @@ var state = 0;
 var stand = 0;
 var walk = 0;
 var run = 0;
-var countTime = 15*1000;
+var countTime = 15 * 1000;
 //var countDown = 180 * 1000;
 var countDown = countTime;
 var timeout = 0;
@@ -32,10 +32,11 @@ function version() {
   var version = document.getElementById("version");
   if (version.value != "0") {
     if (version.value == "C" || version.value == "D") {
-      countTime = 60*1000;
+      countTime = 60 * 1000;
       countDown = countTime;
     }
     document.getElementById("versionSelect").style.visibility = "hidden";
+    document.getElementById("versionID").innerHTML = "Version " + version.value;
   }
 }
 
@@ -235,7 +236,7 @@ var Clock = {
       var seconds = Math.floor((countDown % (1000 * 60)) / 1000);
       if (countDown >= 0) {
         document.getElementById("Timer").innerHTML =
-          minutes + "min " + seconds + "sec ";
+          minutes + " min " + seconds + " sec ";
       } else {
         document.getElementById("Timer").innerHTML =
           "Timeout, you can FINISH the measurement.";
@@ -253,7 +254,6 @@ var Clock = {
     if (!this.interval) this.start();
   },
   reset: function() {
-    //countDown = 180 * 1000;
     countDown = countTime;
   }
 };
