@@ -10,8 +10,9 @@ var state = 0;
 var stand = 0;
 var walk = 0;
 var run = 0;
+var countTime = 15*1000;
 //var countDown = 180 * 1000;
-var countDown = 15 * 1000;
+var countDown = countTime;
 var timeout = 0;
 var finishedType = "None";
 
@@ -30,6 +31,10 @@ $(document).ready(function() {
 function version() {
   var version = document.getElementById("version");
   if (version.value != "0") {
+    if (version.value == "C" || version.value == "D") {
+      countTime = 60*1000;
+      countDown = countTime;
+    }
     document.getElementById("versionSelect").style.visibility = "hidden";
   }
 }
@@ -52,7 +57,7 @@ function startMeasure() {
   var versionType = document.getElementById("version").value;
   if (state == 0) {
     var motionType = document.getElementById("motion").value;
-    if (motionType != "0" && versionType == "B") {
+    if (motionType != "0" && (versionType == "B" || versionType == "D")) {
       change2Foot();
     }
     switch (motionType) {
@@ -84,7 +89,7 @@ function startMeasure() {
         break;
     }
   } else if (state == 4) {
-    if (versionType == "B") {
+    if (versionType == "B" || versionType == "D") {
       change2Foot();
     }
     console.log("Resume standing measurement");
@@ -93,7 +98,7 @@ function startMeasure() {
     state = 1;
     Clock.resume();
   } else if (state == 5) {
-    if (versionType == "B") {
+    if (versionType == "B" || versionType == "D") {
       change2Foot();
     }
     console.log("Resume walking measurement");
@@ -102,7 +107,7 @@ function startMeasure() {
     state = 2;
     Clock.resume();
   } else if (state == 6) {
-    if (versionType == "B") {
+    if (versionType == "B" || versionType == "D") {
       change2Foot();
     }
     console.log("Resume running measurement");
@@ -148,7 +153,7 @@ function pauseMeasure() {
 }
 
 function finishMeasure() {
-  if (versionType == "B") {
+  if (versionType == "B" || versionType == "D") {
     change2Logo();
   }
   if (state == 0) {
@@ -249,6 +254,6 @@ var Clock = {
   },
   reset: function() {
     //countDown = 180 * 1000;
-    countDown = 15 * 1000;
+    countDown = countTime;
   }
 };
