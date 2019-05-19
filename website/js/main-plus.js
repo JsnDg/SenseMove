@@ -16,29 +16,19 @@ var countDown = countTime;
 var timeout = 0;
 var finishedType = "None";
 
-var versionType = 0;
-
 $(document).ready(function() {
-  document.getElementById("version").onchange = version;
   $("#start").click(startMeasure);
   $("#pause").click(pauseMeasure);
   $("#finish").click(finishMeasure);
   $("#generate").click(generateMap);
   document.getElementById("logo").src = "img/logo.png";
   var logo = document.createElement("logo");
-});
-
-function version() {
-  var version = document.getElementById("version");
-  if (version.value != "0") {
-    if (version.value == "C" || version.value == "D") {
-      countTime = 30 * 1000;
-      countDown = countTime;
-    }
-    document.getElementById("versionSelect").style.visibility = "hidden";
-    document.getElementById("versionID").innerHTML = "Version " + version.value;
+  console.log("check version", versionType);
+  if (versionType == "C" || versionType == "D") {
+    countTime = 30 * 1000;
+    countDown = countTime;
   }
-}
+});
 
 function change2Foot() {
   logo.src = "img/Foot.png";
@@ -55,7 +45,6 @@ function change2Logo() {
 }
 
 function startMeasure() {
-  var versionType = document.getElementById("version").value;
   if (state == 0) {
     var motionType = document.getElementById("motion").value;
     if (motionType != "0" && (versionType == "B" || versionType == "D")) {
